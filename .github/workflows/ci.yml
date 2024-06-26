@@ -359,8 +359,8 @@ jobs:
 
       - name: Install Rust
         run: |
-          rustup install ${{ matrix.rust_target }} --profile minimal
-          rustup default ${{ matrix.rust_target }}
+          rustup install stable --profile minimal
+          rustup default stable
           rustup target add ${{ matrix.rust_target }}          
 
       - name: Install test dependencies
