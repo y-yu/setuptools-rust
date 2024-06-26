@@ -366,10 +366,8 @@ jobs:
       - name: Install
         run: pip install -e .
 
-      - name: Show JSON
-        run: |
-          cd examples/hello-world-setuppy
-          python -m build --no-isolation
+      - name: Build
+        run: python -m build --no-isolation
 
 
 #      - name: Install test dependencies
