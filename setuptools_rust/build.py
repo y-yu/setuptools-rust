@@ -280,6 +280,9 @@ class build_rust(RustCommand):
                 if not name:
                     name = dest.split(".")[-1]
 
+                for artifact in artifacts:
+                    print(Path(artifact).with_suffix(""))
+
                 try:
                     artifact_path = next(
                         artifact
