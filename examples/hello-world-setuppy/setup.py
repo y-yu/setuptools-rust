@@ -5,7 +5,8 @@ from setuptools_rust import Binding, RustExtension
 setup(
     name="hello-world",
     version="1.0",
-    packages=["hello-world-setuppy"],
+    packages=find_packages(where="python"),
+    package_dir={"": "python"},
     rust_extensions=[
         RustExtension(
             "hello-world-setuppy",
