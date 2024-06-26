@@ -5,11 +5,10 @@ from setuptools_rust import Binding, RustExtension
 setup(
     name="hello-world",
     version="1.0",
-    packages=find_packages(where="python"),
-    package_dir={"": "python"},
+    packages=["hello-world-setuppy"],
     rust_extensions=[
         RustExtension(
-            "hello_world._lib",
+            "hello-world-setuppy",
             # ^-- The last part of the name (e.g. "_lib") has to match lib.name
             #     in Cargo.toml and the function name in the `.rs` file,
             #     but you can add a prefix to nest it inside of a Python package.
