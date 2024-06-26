@@ -14,5 +14,6 @@ crate-type = ["cdylib"]
 
 [[bin]]
 name = "helloworldsetuppy"
+path = "rust/print_hello.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
