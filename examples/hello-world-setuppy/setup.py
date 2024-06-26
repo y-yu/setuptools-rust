@@ -9,7 +9,7 @@ setup(
     package_dir={"": "python"},
     rust_extensions=[
         RustExtension(
-            "hello-world-setuppy",
+            "helloworldsetuppy",
             # ^-- The last part of the name (e.g. "_lib") has to match lib.name
             #     in Cargo.toml and the function name in the `.rs` file,
             #     but you can add a prefix to nest it inside of a Python package.
