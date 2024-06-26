@@ -178,6 +178,8 @@ def test_mingw(session: nox.Session):
         session.run("sum-cli", "5", "7")
         session.run("rust-demo", "5", "7")
 
+        session.install("--no-build-isolation", str(examples / "hello-world-setuppy"))
+
         session.install("pytest", "pytest-benchmark", "beautifulsoup4")
         session.install("--no-build-isolation", str(examples / "html-py-ever"))
         session.run("pytest", str(examples / "html-py-ever"))
