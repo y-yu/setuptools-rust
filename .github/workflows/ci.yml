@@ -370,7 +370,7 @@ jobs:
 
       - name: Build
         run: |
-          cd examples/hello-world-setuppy
+          cd examples/hello-world
           python -m build --no-isolation
 
 
