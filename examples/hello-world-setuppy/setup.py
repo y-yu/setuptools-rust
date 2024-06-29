@@ -2,6 +2,20 @@ from setuptools import find_packages, setup
 
 from setuptools_rust import Binding, RustExtension
 
+
+try:
+    # noinspection PyPackageRequirements,PyUnresolvedReferences
+    from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
+
+    # noinspection PyPep8Naming,PyAttributeOutsideInit
+    class bdist_wheel(_bdist_wheel):
+        def finalize_options(self):
+            _bdist_wheel.finalize_options(self)
+            self.root_is_pure = False
+
+except ImportError:
+    bdist_wheel = None
+
 setup(
     name="hello-world",
     version="1.0",
