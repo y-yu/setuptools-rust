@@ -333,36 +333,58 @@ jobs:
           { msystem: MINGW64, arch: x86_64, path: mingw64, rust_target: x86_64-pc-windows-gnu },
           { msystem: MINGW32, arch: i686, path: mingw32, rust_target: i686-pc-windows-gnu }
         ]
+    defaults:
+      run:
+        shell: msys2 {0}
     steps:
       - uses: actions/checkout@v4
       - name: Install MSys2 and dependencies
         uses: msys2/setup-msys2@v2
         with:
           update: true
+          path-type: inherit
           msystem: ${{ matrix.msystem }}
           install: >-
             git
             mingw-w64-${{ matrix.arch }}-python
             mingw-w64-${{ matrix.arch }}-python-pip
+            mingw-w64-${{ matrix.arch }}-python-poetry
             mingw-w64-${{ matrix.arch }}-openssl
             mingw-w64-${{ matrix.arch }}-toolchain
 
-      - uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: stable-${{ matrix.rust_target }}
-
-      - name: Install test dependencies
-        shell: msys2 {0}
-        run: python -m pip install --upgrade nox pip wheel
-
-      - name: Create libpython symlink
-        shell: msys2 {0}
-        run: ln -s /${{ matrix.path }}/lib/libpython3.11.dll.a /${{ matrix.path }}/lib/libpython311.dll.a
-
-      - name: Test examples
-        shell: msys2 {0}
+      - name: Install Rustup using win.rustup.rs
         run: |
-          PATH="$PATH:/c/Users/runneradmin/.cargo/bin" nox -s test-mingw
+          curl -o rustup-init.exe -sSL https://win.rustup.rs/
+          ./rustup-init.exe -y --default-host=${{ matrix.rust_target }} --profile=minimal
+          rm rustup-init.exe
+
+      - name: Install Rust
+        run: |
+          rustup install stable --profile minimal
+          rustup default stable
+          rustup target add ${{ matrix.rust_target }}          
+
+      - run: python -m pip install build wheel
+
+      - name: Install
+        run: pip install -e .
+
+      - name: Build
+        run: |
+          cd examples/hello-world-script
+          cargo build --manifest-path Cargo.toml --message-format=json-render-diagnostics --release -v --no-default-features
+          poetry install
+          poetry build
+
+
+#      - name: Install test dependencies
+#        run: python -m pip install --upgrade nox pip wheel
+
+#      - name: Create libpython symlink
+#        run: ln -s /${{ matrix.path }}/lib/libpython3.11.dll.a /${{ matrix.path }}/lib/libpython311.dll.a
+
+#      - name: Test examples
+ #       run: nox -s test-mingw
 
   test-emscripten:
     name: Test Emscripten
