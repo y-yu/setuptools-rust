@@ -1,7 +1,6 @@
 from setuptools import find_packages, setup
 
-from setuptools_rust import Binding, RustExtension
-
+from setuptools_rust import Binding, RustExtension, RustBin
 
 try:
     # noinspection PyPackageRequirements,PyUnresolvedReferences
@@ -16,6 +15,8 @@ try:
 except ImportError:
     bdist_wheel = None
 
+cargo_args = ["--no-default-features"]
+
 setup(
     name="hello-world",
     version="1.0",
@@ -23,13 +24,10 @@ setup(
     package_dir={"": "python"},
     cmdclass={"bdist_wheel": bdist_wheel},
     rust_extensions=[
-        RustExtension(
+        RustBin(
             "helloworldsetuppy",
-            # ^-- The last part of the name (e.g. "_lib") has to match lib.name
-            #     in Cargo.toml and the function name in the `.rs` file,
-            #     but you can add a prefix to nest it inside of a Python package.
-            path="Cargo.toml",  # Default value, can be omitted
-            binding=Binding.PyO3,  # Default value, can be omitted
+             args=cargo_args,
+             argo_manifest_args=["--locked"]
         )
     ],
     # rust extensions are not zip safe, just like C-extensions.
