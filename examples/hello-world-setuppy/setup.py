@@ -27,7 +27,7 @@ setup(
         RustBin(
             "helloworldsetuppy",
              args=cargo_args,
-             argo_manifest_args=["--locked"]
+             cargo_manifest_args=["--locked"]
         )
     ],
     # rust extensions are not zip safe, just like C-extensions.
