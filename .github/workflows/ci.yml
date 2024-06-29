@@ -370,7 +370,7 @@ jobs:
 
       - name: Build
         run: |
-          cd examples/hello-world
+          cd examples/hello-world-setuppy
           cargo build --manifest-path Cargo.toml --message-format=json-render-diagnostics --release -v --no-default-features
           python -m build --no-isolation
 
