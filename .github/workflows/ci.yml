@@ -348,6 +348,7 @@ jobs:
             git
             mingw-w64-${{ matrix.arch }}-python
             mingw-w64-${{ matrix.arch }}-python-pip
+            mingw-w64-${{ matrix.arch }}-python-poetry
             mingw-w64-${{ matrix.arch }}-openssl
             mingw-w64-${{ matrix.arch }}-toolchain
 
@@ -370,9 +371,10 @@ jobs:
 
       - name: Build
         run: |
-          cd examples/hello-world-setuppy
+          cd examples/hello-world-script
           cargo build --manifest-path Cargo.toml --message-format=json-render-diagnostics --release -v --no-default-features
-          python -m build --no-isolation
+          poetry install
+          poetry build
 
 
 #      - name: Install test dependencies
