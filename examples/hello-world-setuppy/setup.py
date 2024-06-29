@@ -7,6 +7,7 @@ setup(
     version="1.0",
     packages=find_packages(where="python"),
     package_dir={"": "python"},
+    cmdclass={"bdist_wheel": bdist_wheel},
     rust_extensions=[
         RustExtension(
             "helloworldsetuppy",
